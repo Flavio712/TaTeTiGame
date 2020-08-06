@@ -20,9 +20,9 @@ public class vista extends JFrame {
 	private JPanel contentPane;
 	boolean estado=true;//si es true se puede escribir
 	String siguienteJuego = "O";
-	String turno = "X";
-	JLabel lbs[] = new JLabel[9]; //para acceder mas facil a las variables
-	int victoria[][] = {{1,2,3},
+	String turno = "X";//indica a quien le toca, empieza con X
+	JLabel lbs[] = new JLabel[9]; //para acceder mas rapido y facil a las variables
+	int victoria[][] = {{1,2,3}, //matriz (array doble) de todas las posibles jugadas ganadoras
 					    {4,5,6},
 					    {7,8,9},
 					    {1,4,7},
@@ -195,8 +195,10 @@ public class vista extends JFrame {
 		jLabel9.setBackground(Color.WHITE);
 		jLabel9.setBounds(124, 126, 52, 52);
 		panel_1.add(jLabel9);
-		setLocationRelativeTo(null);
-		lbs[0]=jLabel1;
+		
+		setLocationRelativeTo(null); //el frame aparece en el medio de la pantalla
+		
+		lbs[0]=jLabel1; //creamos variables para los labels
 		lbs[1]=jLabel2;
 		lbs[2]=jLabel3;
 		lbs[3]=jLabel4;
@@ -213,8 +215,8 @@ public class vista extends JFrame {
 		
 		JButton btnReiniciar = new JButton("Reiniciar");
 		btnReiniciar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				for(int i=0; i<lbs.length; i++) {
+			public void actionPerformed(ActionEvent arg0) {//Setea en vacio todas las casillas del juego,cambia el fondo a blanco,
+				for(int i=0; i<lbs.length; i++) {//  cambia el turno y cambia el estado del juego
 					lbs[i].setText("");
 					lbs[i].setBackground(Color.WHITE);
 				}
@@ -253,8 +255,8 @@ public class vista extends JFrame {
 		panel.add(lbPuntajeO);
 			
 	}
-	public void presionar (int casilla) {
-		if(lbs[casilla-1].getText().equals("") && estado) {
+	public void presionar (int casilla) {//este metodo verifica que el lugar este vacio (casilla= numero de label )y si no hay ganador, al presionar, 
+		if(lbs[casilla-1].getText().equals("") && estado) {// se escribe X o O dependiendo del turno. Se cambia de turno y se verifica si alguien gano
 			lbs[casilla-1].setText(turno);
 			cambiarTurno();
 			comprobarGanador();
@@ -262,7 +264,7 @@ public class vista extends JFrame {
 		
 	}
 	
-	public void cambiarTurno() {
+	public void cambiarTurno() {// este metodo cambia el turno, X o O
 		if(turno.equals("X")) {
 			turno="O";
 		}
@@ -272,9 +274,9 @@ public class vista extends JFrame {
 		
 		lbTurno.setText("Turno de "+turno);// cada vez que se cambie de turno tambien cambia el label y muestra a quien le toca
 	}
-	public void comprobarGanador() {
-		for(int i=0; i<victoria.length; i++) {
-			if(lbs[victoria[i][0]-1].getText().equals("X") &&
+	public void comprobarGanador() {//verifica en todas las posibles posiciones de victoria (los trios) buscando 3 X o 3 O, si encuentra un ganador,
+		for(int i=0; i<victoria.length; i++) {// pinta el fondo de verde de las casilla ganadoras. Dice quien gano y suma 1 punto al ganador.
+			if(lbs[victoria[i][0]-1].getText().equals("X") &&//el juego termina ya que pasa la variable estado a false
 					lbs[victoria[i][1]-1].getText().equals("X") && 
 							lbs[victoria[i][2]-1].getText().equals("X")){
 								lbs[victoria[i][0]-1].setBackground(Color.GREEN);
